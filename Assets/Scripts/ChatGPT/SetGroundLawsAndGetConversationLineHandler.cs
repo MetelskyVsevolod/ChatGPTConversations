@@ -17,7 +17,7 @@ namespace ChatGPT
                 var messagesAmount = inputData.ConversationHistory.Count;
                 var conversationHistoryString = inputData.GetConversationHistoryWithLatestDialogueLine();
                 var participantsNamesAndIdsString = inputData.GetParticipantsNamesAndIdsString(speaker.Id);
-                var conversationLinePrompt = string.Format(GetConversationLinePromptHolderNoPlans.GetConversationLinePrompt, conversationHistoryString, messagesAmount, participantsNamesAndIdsString, speaker.FullName);
+                var conversationLinePrompt = string.Format(GetConversationLinePromptHolderNoPlans.GetConversationLinePrompt, participantsNamesAndIdsString, conversationHistoryString, messagesAmount, speaker.FullName);
                 var messages = chatGptCommunicationHandler.GetMessagesWithConfirmationInside(groundLawsPrompt, conversationLinePrompt);
 
                 var functionName = GroundLawsAndGetNextLineParserHolder.GetFunctionName();

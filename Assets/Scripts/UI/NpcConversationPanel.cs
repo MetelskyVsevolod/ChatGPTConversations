@@ -18,6 +18,7 @@ namespace UI
         [SerializeField] private RectTransform messageViewsParent;
         [SerializeField] private NpcManagementPanel npcManagementPanel;
         [SerializeField] private TMP_InputField chatGptApiKeyInputField;
+        [SerializeField] private GameObject waitingForResponseGameObject;
 
         private List<NpcData> _participants = new();
         private readonly List<string> _conversationHistory = new();
@@ -29,6 +30,7 @@ namespace UI
             AddParticipant(new NpcData("2", "Spiderman", "A Marvel superhero"));
             AddParticipant(new NpcData("3", "Anakin Skywalker", "A jedi knight, the Chosen One"));
             chatGptApiKeyInputField.text = string.Empty;
+            waitingForResponseGameObject.SetActive(false);
         }
 
         private string GetApiKey()
@@ -65,7 +67,8 @@ namespace UI
             {
                 nextButton.interactable = false;
                 openNpcManagementPanelButton.interactable = false;
-
+                waitingForResponseGameObject.SetActive(true);
+                
                 var conversationRequestInputData = new ConversationRequestInputData(_conversationHistory, _participants);
                 var conversationLine = await NpcsConversationHandler.GetConversationLine(GetApiKey(), conversationRequestInputData);
                 var speakerNpcData = conversationRequestInputData.GetParticipantById(conversationLine.SpeakerId);
@@ -79,6 +82,7 @@ namespace UI
                 
                 nextButton.interactable = true;
                 openNpcManagementPanelButton.interactable = true;
+                waitingForResponseGameObject.SetActive(false);
             }
             catch (Exception exception)
             {

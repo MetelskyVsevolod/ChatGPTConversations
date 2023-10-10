@@ -10,7 +10,7 @@ namespace ChatGPT
 {
     public class RequestsHandler
     {
-        public const int TIMEOUT = 60;
+        public const int TIMEOUT = 360;
         
         private void SetHeaders(ref UnityWebRequest req, List<(string, string)> headers)
         {
